@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 220 25% 6%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 20% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 20% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 174 72% 50%;
+    --primary-foreground: 220 25% 6%;
+
+    --secondary: 220 18% 16%;
+    --secondary-foreground: 210 20% 80%;
+
+    --muted: 220 15% 14%;
+    --muted-foreground: 215 12% 50%;
+
+    --accent: 174 72% 50%;
+    --accent-foreground: 220 25% 6%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 220 25% 6%;
+
+    --safe: 142 72% 45%;
+    --safe-foreground: 220 25% 6%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 174 72% 50%;
+
+    --radius: 0.75rem;
+
+    --glow-primary: 0 0 20px hsl(174 72% 50% / 0.15);
+    --glow-danger: 0 0 20px hsl(0 72% 55% / 0.15);
+    --glow-warning: 0 0 20px hsl(38 92% 55% / 0.15);
+    --glow-safe: 0 0 20px hsl(142 72% 45% / 0.15);
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 174 72% 50%;
+    --sidebar-primary-foreground: 220 25% 6%;
+    --sidebar-accent: 220 18% 16%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 174 72% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  code, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+  .glow-danger {
+    box-shadow: var(--glow-danger);
+  }
+  .glow-warning {
+    box-shadow: var(--glow-warning);
+  }
+  .glow-safe {
+    box-shadow: var(--glow-safe);
+  }
+  .glass {
+    @apply bg-card/80 backdrop-blur-xl border border-border;
+  }
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(174 72% 50% / 0.3), transparent 50%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
