@@ -1,19 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/**
- * Minimal Aave V2 Flash Loan Receiver (single-asset)
- *
- * What it does:
- * - Can receive a flash loan from Aave V2 LendingPool
- * - Executes arbitrary logic hook (you can customize)
- * - Repays (amount + premium) within the same transaction
- * - Optionally sends any leftover profit to a chosen beneficiary
- *
- * IMPORTANT:
- * - Aave V2 core is 0.6.x, but interfaces work fine in 0.8.x for calling.
- * - You MUST deploy this contract, then your React app calls `requestFlashLoan`.
- */
+
 
 // ---------- Minimal ERC20 ----------
 interface IERC20 {
@@ -70,14 +58,7 @@ contract FlashLoanReceiver is IFlashLoanReceiverV2 {
         owner = newOwner;
     }
 
-    /**
-     * Called by your wallet (or your UI) to start a flash loan.
-     *
-     * @param asset The token to borrow
-     * @param amount Amount to borrow (raw units)
-     * @param mode 0 = pure flash (must repay), 1/2 opens debt if not repaid (advanced)
-     * @param params Arbitrary bytes passed into executeOperation (encode anything you want)
-     */
+    
     function requestFlashLoan(
         address asset,
         uint256 amount,
@@ -107,10 +88,7 @@ contract FlashLoanReceiver is IFlashLoanReceiverV2 {
         emit FlashLoanRequested(asset, amount, mode);
     }
 
-    /**
-     * Aave calls this after sending funds.
-     * You MUST repay (amount + premium) here for mode=0.
-     */
+  
     function executeOperation(
         address[] calldata assets,
         uint256[] calldata amounts,
@@ -127,16 +105,7 @@ contract FlashLoanReceiver is IFlashLoanReceiverV2 {
         uint256 amount = amounts[0];
         uint256 premium = premiums[0];
 
-        // -----------------------------
-        // YOUR FLASH-LOAN LOGIC GOES HERE
-        // -----------------------------
-        // Examples (you will implement later):
-        // - DEX arbitrage (swap A -> B -> A)
-        // - liquidations
-        // - collateral swap / refinancing
-        //
-        // For now: do nothing.
-        // -----------------------------
+      
 
         // Repay Aave: approve the LendingPool to pull amount + premium
         uint256 repayAmount = amount + premium;
@@ -146,10 +115,7 @@ contract FlashLoanReceiver is IFlashLoanReceiverV2 {
         return true;
     }
 
-    /**
-     * Withdraw any leftover tokens (profit) sitting in the receiver.
-     * You can call this after successful flash loan if your strategy made profit.
-     */
+ 
     function withdrawToken(address token, address to, uint256 amount) external onlyOwner {
         require(to != address(0), "Bad to");
         IERC20(token).transfer(to, amount);
@@ -163,3 +129,4 @@ contract FlashLoanReceiver is IFlashLoanReceiverV2 {
         return IERC20(token).balanceOf(address(this));
     }
 }
+
